@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         {
             userEmail.setVisibility(View.VISIBLE);
             do_splash();
-            //finish();
+            finish();
             //btnSignOut.setVisibility(View.VISIBLE);
         }
         else

@@ -1,9 +1,9 @@
 package com.company.wisp.wisp;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Button;
@@ -11,12 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.company.wisp.wisp.SimpleGestureFilter.*;
-
 import java.util.Locale;
 
-public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnInitListener
-        , SimpleGestureListener {
+public class GlobalLibrary extends AppCompatActivity implements TextToSpeech.OnInitListener
+        , SimpleGestureFilter.SimpleGestureListener {
 
     private SimpleGestureFilter detector;
     private TextToSpeech tts;
@@ -27,15 +25,13 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_global_library);
 
         tts = new TextToSpeech(this, this);
 
-        btnSpeak = (Button) findViewById(R.id.btnSpeak);
 
-        txtText = (EditText) findViewById(R.id.txtText);
 
-        txtView = (TextView) findViewById(R.id.testBox);
+        txtView = (TextView) findViewById(R.id.globalLibraryTextView);
 
         // button on click event
         /*
@@ -113,29 +109,9 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         }
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-        String strSpeaK="you have "+str;
-        tts.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+        tts.speak("you have "+str, TextToSpeech.QUEUE_FLUSH, null);
 
-        if(str.equalsIgnoreCase("Swiped Right"))
-        {
-            Intent i = new Intent(MenuActivity.this, LocalLibrary.class);
-            startActivity(i);
-        }
-        else if(str.equalsIgnoreCase("Swiped Left"))
-        {
-            Intent i = new Intent(MenuActivity.this, GlobalLibrary.class);
-            startActivity(i);
-        }
-        else if(str.equalsIgnoreCase("Swiped Up"))
-        {
-            Intent i = new Intent(MenuActivity.this, SearchLocal.class);
-            startActivity(i);
-        }
-        else if(str.equalsIgnoreCase("Swiped Down"))
-        {
-            //Intent i = new Intent(MenuActivity.this, RecordActivity.class);
-            //startActivity(i);
-        }
+
 
     }
 

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Wisp</string>
     <string name="splashTxt">Swipe left for global library.  Swipe Right for local library.   Swipe down to record </string>
+    <string name="globalLibraryText">Welcome to Global Library </string>
+    <string name="localLibraryText">Welcome to Local Library </string>
 </resources>
