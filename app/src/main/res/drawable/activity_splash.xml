@@ -2,12 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@color/colorAccent"/>
+        android:drawable="@color/logo_bg"/>
 
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/wwe_logo"/>
+            android:src="@drawable/logo2"/>
     </item>
 
 </layer-list>
