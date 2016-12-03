@@ -133,8 +133,8 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
         else if(str.equalsIgnoreCase("Swiped Down"))
         {
-            //Intent i = new Intent(MenuActivity.this, RecordActivity.class);
-            //startActivity(i);
+            Intent i = new Intent(MenuActivity.this, AudioRecorder.class);
+            startActivity(i);
         }
 
     }
