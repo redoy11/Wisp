@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         else
         {
             //btnSignOut.setVisibility(View.GONE);
+            do_splash();
         }
     }
 

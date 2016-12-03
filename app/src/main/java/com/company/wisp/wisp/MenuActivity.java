@@ -1,16 +1,23 @@
 package com.company.wisp.wisp;
 
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.company.wisp.wisp.SimpleGestureFilter.*;
 
 import java.util.Locale;
 
-public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnInitListener
+        , SimpleGestureListener {
+
+    private SimpleGestureFilter detector;
     private TextToSpeech tts;
     private Button btnSpeak;
     private EditText txtText;
@@ -40,6 +47,7 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         });
         */
+        detector = new SimpleGestureFilter(this,this);
     }
 
     @Override
@@ -78,5 +86,37 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
         String text = txtView.getText().toString();
 
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent me){
+        // Call onTouchEvent of SimpleGestureFilter class
+        this.detector.onTouchEvent(me);
+        return super.dispatchTouchEvent(me);
+    }
+    @Override
+    public void onSwipe(int direction) {
+        String str = "";
+
+        switch (direction) {
+
+            case SimpleGestureFilter.SWIPE_RIGHT : str = "Swipe Right";
+                break;
+            case SimpleGestureFilter.SWIPE_LEFT :  str = "Swipe Left";
+                break;
+            case SimpleGestureFilter.SWIPE_DOWN :  str = "Swipe Down";
+                break;
+            case SimpleGestureFilter.SWIPE_UP :    str = "Swipe Up";
+                break;
+
+        }
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+        tts.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    public void onDoubleTap() {
+        Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
     }
 }
