@@ -40,13 +40,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     void do_splash()
     {
+        /*
         new Handler().postDelayed(new Runnable() {
 
             /*
              * Showing splash screen with a timer. This will be useful when you
              * want to show case your app logo / company
              */
-
+/*
             @Override
             public void run() {
                 // This method will be executed once the timer is over
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    */
+
+        Intent i = new Intent(MainActivity.this, MenuActivity.class);
+        startActivity(i);
     }
     void signIn()
     {
