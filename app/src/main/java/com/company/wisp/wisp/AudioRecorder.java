@@ -55,6 +55,10 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_recorder);
+
+        Bundle bundle = getIntent().getExtras();
+        String message = bundle.getString("message");
+
         dialogue="Swipe Right to start recording";
         tts = new TextToSpeech(this, this);
         detector = new SimpleGestureFilter(this,this);
@@ -67,7 +71,7 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
         outputDir.mkdirs();
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String fileName = "WISP_" + timeStamp + ".3gpp";
+        String fileName = message+"_" + timeStamp + ".3gpp";
 
         outputFile = Environment.getExternalStorageDirectory().
                 getAbsolutePath() + "/wisp/local_records/" + fileName;

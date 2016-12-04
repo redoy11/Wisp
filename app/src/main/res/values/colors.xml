@@ -5,5 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#F8F8F8</color>
     <color name="bg_color">#696659</color>
-    <color name="logo_bg">#ccccff</color>
+    <color name="logo_bg">#FFFFFF</color>
+    <color name="topmostBar">#6633FF</color>
+    <color name="bodyTheme">#CCFFFF</color>
+    <color name="topBar">#330033</color>
 </resources>
