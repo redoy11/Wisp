@@ -66,7 +66,8 @@ public class SpeakFileName extends AppCompatActivity implements TextToSpeech.OnI
                 Log.e("TTS", "This Language is not supported");
             } else {
                 // btnSpeak.setEnabled(true);
-                speakOut();
+                speakInst();
+                filename = txtOutput.getText().toString();
             }
 
         } else {
@@ -75,10 +76,18 @@ public class SpeakFileName extends AppCompatActivity implements TextToSpeech.OnI
 
     }
 
+
+    private void speakInst() {
+
+        String instruction = "Swipe Right to record file name and Then    Swipe left to save file name";
+
+        tts.speak(instruction, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
     private void speakOut() {
 
-        filename = txtOutput.getText().toString();
 
+        filename = txtOutput.getText().toString();
         tts.speak(filename, TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -136,9 +145,10 @@ public class SpeakFileName extends AppCompatActivity implements TextToSpeech.OnI
                 Intent i = new Intent(SpeakFileName.this, AudioRecorder.class);
                 i.putExtra("message", filename);
                 startActivity(i);
+                finish();
             }
             else{
-                tts.speak("Speak out a valid file name", TextToSpeech.QUEUE_ADD, null);
+                tts.speak("Swipe right and then Speak out a valid file name", TextToSpeech.QUEUE_ADD, null);
             }
         }
         else if(str.equalsIgnoreCase("Swiped Up"))

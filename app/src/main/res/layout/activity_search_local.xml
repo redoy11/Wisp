@@ -22,29 +22,38 @@
         android:textColor="@color/white"
         android:textSize="26dp"
         android:textStyle="normal" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
         android:gravity="center"
-        android:orientation="vertical" >
-        <ImageButton
-            android:id="@+id/btn_mic"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@null"
-            android:scaleType="centerCrop"
-            android:src="@drawable/microphone" />
+        android:orientation="vertical"
+        android:layout_below="@+id/btn_mic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="61dp"
+        android:layout_marginEnd="61dp"
+        android:layout_marginTop="24dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Speech to text using Google API"
+            android:text="Search local library using voice"
             android:textColor="@color/white"
             android:textSize="15dp"
             android:textStyle="normal" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_mic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/microphone"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/txt_output"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

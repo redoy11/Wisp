@@ -18,4 +18,13 @@
         android:layout_marginTop="59dp"
         android:id="@+id/globalLibraryTextView"
         android:text="@string/globalLibraryText" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cloud1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="107dp" />
 </RelativeLayout>

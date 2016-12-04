@@ -181,6 +181,7 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
             } else {
                 // btnSpeak.setEnabled(true);
                 speakOut();
+                speakOutFirstFile();
             }
 
         } else {
@@ -191,11 +192,19 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
 
     private void speakOut() {
         String text = txtView.getText().toString();
+        text+=". Swipe Right to browse Next. Swipe Left to browse Previous. Swipe down to play or stop playing current file.";
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
     private void speakOutCurFile() {
         String text = txtViewFileName.getText().toString();
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        text="Current filename  "+text;
+        tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+    }
+
+    private void speakOutFirstFile() {
+        String text = txtViewFileName.getText().toString();
+        text="Current filename  "+text;
+        tts.speak(text, TextToSpeech.QUEUE_ADD, null);
     }
 
     @Override
@@ -220,11 +229,11 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
                 break;
 
         }
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"you have "+str, Toast.LENGTH_SHORT).show();
         tts.speak("you have " + str, TextToSpeech.QUEUE_FLUSH, null);
 
         String strSpeaK="you have "+str;
-        tts.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+        tts.speak(strSpeaK, TextToSpeech.QUEUE_FLUSH, null);
 
         if(str.equalsIgnoreCase("Swiped Right"))
         {
@@ -250,6 +259,7 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
                 stopPlay();
             } else {
                 if (stop_play_flag) stopPlay();
+                //tts.speak("Swipe down to stop. Playing Current File. ", TextToSpeech.QUEUE_FLUSH, null);
                 play(filename);
             }
         }
@@ -260,6 +270,7 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
         Toast.makeText(this, "you have Double Tapped", Toast.LENGTH_SHORT).show();
         tts.speak("you have Double Tapped", TextToSpeech.QUEUE_FLUSH, null);
         speakOut();
+        speakOutFirstFile();
     }
 }
 

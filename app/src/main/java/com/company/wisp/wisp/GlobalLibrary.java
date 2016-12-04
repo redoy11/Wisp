@@ -81,7 +81,7 @@ public class GlobalLibrary extends AppCompatActivity implements TextToSpeech.OnI
     private void speakOut() {
 
         String text = txtView.getText().toString();
-
+        text+=". Sorry. Global library is offline. It is under construction.";
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 

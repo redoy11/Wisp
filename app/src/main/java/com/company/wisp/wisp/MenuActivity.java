@@ -109,9 +109,10 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 break;
 
         }
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         String strSpeaK="you have "+str;
-        tts.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+        Toast.makeText(this, strSpeaK, Toast.LENGTH_SHORT).show();
+
+        tts.speak(strSpeaK, TextToSpeech.QUEUE_FLUSH, null);
 
         if(str.equalsIgnoreCase("Swiped Right"))
         {

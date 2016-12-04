@@ -67,6 +67,7 @@ public class SearchLocal extends AppCompatActivity implements TextToSpeech.OnIni
             } else {
                 // btnSpeak.setEnabled(true);
                 speakOut();
+                tts.speak("Swipe Right to search local library by voice.", TextToSpeech.QUEUE_FLUSH, null);
             }
 
         } else {
@@ -105,8 +106,9 @@ public class SearchLocal extends AppCompatActivity implements TextToSpeech.OnIni
                 break;
 
         }
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         String strSpeaK="you have "+str;
+        Toast.makeText(this, strSpeaK, Toast.LENGTH_SHORT).show();
+
         tts.speak(strSpeaK, TextToSpeech.QUEUE_FLUSH, null);
 
         if(str.equalsIgnoreCase("Swiped Right"))

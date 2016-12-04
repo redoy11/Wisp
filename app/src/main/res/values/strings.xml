@@ -5,7 +5,7 @@
     <string name="localLibraryText">Welcome to Local Library </string>
     <string name="title_activity_audio_recorder">Audio Recorder</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Record Status</string>
     <string name="action_settings">Settings</string>
     <string name="recordGuide">Swipe Right to start recording</string>
 
