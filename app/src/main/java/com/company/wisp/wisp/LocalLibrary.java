@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitListener
+public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnInitListener
         , SimpleGestureFilter.SimpleGestureListener {
 
     private SimpleGestureFilter detector;
@@ -37,7 +38,11 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
     private MediaPlayer myPlayer;
     private boolean play_flag=false;
     private boolean stop_play_flag=false;
+
     private  String runningFile=null;
+    private List fileNames;
+    private int curPosition;
+    private TextView txtViewFileName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,49 +52,51 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
         tts = new TextToSpeech(this, this);
 
         txtView = (TextView) findViewById(R.id.localLibraryTextView);
-
-        // button on click event
-        /*
-        btnSpeak.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                speakOut();
-            }
-
-        });
-        */
         detector = new SimpleGestureFilter(this,this);
 
-        // Use the current directory as title
+        txtViewFileName = (TextView) findViewById(R.id.localLibraryFileName);
+        curPosition = 0;
+
         path = "/";
         if (getIntent().hasExtra("path")) {
             path = getIntent().getStringExtra("path");
         }
-        setTitle(path);
 
         // Read all files sorted into the values-array
-        List values = new ArrayList();
+        fileNames = new ArrayList();
         File dir = new File(path);
-        if (!dir.canRead()) {
+        /*if (!dir.canRead()) {
             setTitle(getTitle() + " (inaccessible)");
-        }
+        }*/
         String[] list = dir.list();
         if (list != null) {
             for (String file : list) {
                 if (!file.startsWith(".")) {
-                    values.add(file);
+                    fileNames.add(file);
                 }
             }
         }
-        Collections.sort(values);
+        Collections.sort(fileNames);
 
         // Put the data into the list
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_2, android.R.id.text1, values);
-        setListAdapter(adapter);
+        //ArrayAdapter adapter = new ArrayAdapter(this,
+        //        android.R.layout.simple_list_item_2, android.R.id.text1, values);
+        //setListAdapter(adapter);
+        showCurrentFile();
     }
 
+    public void showCurrentFile() {
+        if(fileNames.size() == 0) {
+            speakOut();
+            return;
+        }
+        if(curPosition >= fileNames.size()) curPosition = 0;
+        else if(curPosition < 0) curPosition = fileNames.size() - 1;
+        txtViewFileName.setText((CharSequence) fileNames.get(curPosition).toString());
+        speakOutCurFile();
+    }
+
+    /*
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         String filename = (String) getListAdapter().getItem(position);
@@ -112,7 +119,7 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
             }
         }
     }
-
+*/
     public void play(String selectedFile) {
         try{
             myPlayer = new MediaPlayer();
@@ -147,7 +154,6 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
                         Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -184,12 +190,13 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
     }
 
     private void speakOut() {
-
         String text = txtView.getText().toString();
-
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
-
+    private void speakOutCurFile() {
+        String text = txtViewFileName.getText().toString();
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent me){
@@ -214,7 +221,38 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
 
         }
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-        tts.speak("you have "+str, TextToSpeech.QUEUE_FLUSH, null);
+        tts.speak("you have " + str, TextToSpeech.QUEUE_FLUSH, null);
+
+        String strSpeaK="you have "+str;
+        tts.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+
+        if(str.equalsIgnoreCase("Swiped Right"))
+        {
+            if(stop_play_flag) stopPlay();
+            curPosition++;
+            showCurrentFile();
+        }
+        else if(str.equalsIgnoreCase("Swiped Left"))
+        {
+            if(stop_play_flag) stopPlay();
+            curPosition--;
+            showCurrentFile();
+        }
+        else if(str.equalsIgnoreCase("Swiped Up"))
+        {
+            if(stop_play_flag) stopPlay();
+        }
+        else if(str.equalsIgnoreCase("Swiped Down"))
+        {
+            String filename = path + "/" + fileNames.get(curPosition).toString();
+
+            if(filename.equalsIgnoreCase(runningFile)) {
+                stopPlay();
+            } else {
+                if (stop_play_flag) stopPlay();
+                play(filename);
+            }
+        }
     }
 
     @Override
