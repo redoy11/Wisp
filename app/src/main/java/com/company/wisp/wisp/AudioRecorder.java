@@ -22,7 +22,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnInitListener
@@ -60,8 +63,14 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
         text = (TextView) findViewById(R.id.RecordTextView);
 
         // store it to sd card
+        File outputDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/wisp/local_records");
+        outputDir.mkdirs();
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fileName = "WISP_" + timeStamp + ".3gpp";
+
         outputFile = Environment.getExternalStorageDirectory().
-                getAbsolutePath() + "/javacodegeeksRecording.3gpp";
+                getAbsolutePath() + "/wisp/local_records/" + fileName;
 
         myRecorder = new MediaRecorder();
         myRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);

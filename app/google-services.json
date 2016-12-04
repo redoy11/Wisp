@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "656888832037",
-    "project_id": "wisp-17b2a"
+    "project_number": "52199596635",
+    "project_id": "wisp-83921"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:656888832037:android:5d81286cec1547ba",
+        "mobilesdk_app_id": "1:52199596635:android:5d81286cec1547ba",
         "android_client_info": {
           "package_name": "com.company.wisp.wisp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "656888832037-nh9c0bkhqb5n47qffb0esnqs69k8r9bb.apps.googleusercontent.com",
+          "client_id": "52199596635-l12k4imbr1bvbbne3m6jqgn9aq2jnetd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.company.wisp.wisp",
-            "certificate_hash": "FC58CB782FB7E11ABE597FD6E125268E10BB388D"
+            "certificate_hash": "70880EEE5A3614FAD65C3A66B69757E8ED70D64F"
           }
         },
         {
-          "client_id": "656888832037-tlv6cvf4seeo2unve9gmqq4e2pr978qu.apps.googleusercontent.com",
+          "client_id": "52199596635-5e2sr98hnj69b8o82tc5csiou93b1m2k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDBTu1dGC7cLeDv0sRCgfWAykV3v_z7mak"
+          "current_key": "AIzaSyAx8UKgcPb9jPgprAAhUTTpGQ3JUEEI2JI"
         }
       ],
       "services": {
