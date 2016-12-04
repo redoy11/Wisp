@@ -2,6 +2,7 @@ package com.company.wisp.wisp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.company.wisp.wisp.SimpleGestureFilter.*;
 
+import java.io.File;
 import java.util.Locale;
 
 public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnInitListener
@@ -119,6 +121,11 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
         if(str.equalsIgnoreCase("Swiped Right"))
         {
             Intent i = new Intent(MenuActivity.this, LocalLibrary.class);
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/wisp/local_records");
+            file.mkdirs();
+
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/wisp/local_records";
+            i.putExtra("path", path);
             startActivity(i);
         }
         else if(str.equalsIgnoreCase("Swiped Left"))

@@ -1,18 +1,29 @@
 package com.company.wisp.wisp;
 
+import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
-public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnInitListener
+public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitListener
         , SimpleGestureFilter.SimpleGestureListener {
 
     private SimpleGestureFilter detector;
@@ -21,14 +32,19 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
     private EditText txtText;
     private TextView txtView;
 
+    private String path;
+
+    private MediaPlayer myPlayer;
+    private boolean play_flag=false;
+    private boolean stop_play_flag=false;
+    //private String outputFile = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_library);
 
         tts = new TextToSpeech(this, this);
-
-
 
         txtView = (TextView) findViewById(R.id.localLibraryTextView);
 
@@ -44,6 +60,89 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
         });
         */
         detector = new SimpleGestureFilter(this,this);
+
+        // Use the current directory as title
+        path = "/";
+        if (getIntent().hasExtra("path")) {
+            path = getIntent().getStringExtra("path");
+        }
+        setTitle(path);
+
+        // Read all files sorted into the values-array
+        List values = new ArrayList();
+        File dir = new File(path);
+        if (!dir.canRead()) {
+            setTitle(getTitle() + " (inaccessible)");
+        }
+        String[] list = dir.list();
+        if (list != null) {
+            for (String file : list) {
+                if (!file.startsWith(".")) {
+                    values.add(file);
+                }
+            }
+        }
+        Collections.sort(values);
+
+        // Put the data into the list
+        ArrayAdapter adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_2, android.R.id.text1, values);
+        setListAdapter(adapter);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        String filename = (String) getListAdapter().getItem(position);
+        if (path.endsWith(File.separator)) {
+            filename = path + filename;
+        } else {
+            filename = path + File.separator + filename;
+        }
+        if (new File(filename).isDirectory()) {
+            Intent intent = new Intent(this, LocalLibrary.class);
+            intent.putExtra("path", filename);
+            startActivity(intent);
+        } else {
+            //Toast.makeText(this, filename + " is not a directory", Toast.LENGTH_LONG).show();
+            play(filename);
+        }
+    }
+
+    public void play(String selectedFile) {
+        try{
+            myPlayer = new MediaPlayer();
+            myPlayer.setDataSource(selectedFile);
+            myPlayer.prepare();
+            myPlayer.start();
+
+            play_flag=false;
+            stop_play_flag=true;
+            //text.setText("Recording Point: Playing");
+
+            Toast.makeText(getApplicationContext(), "Start play the recording...",
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stopPlay() {
+        try {
+            if (myPlayer != null) {
+                myPlayer.stop();
+                myPlayer.release();
+                myPlayer = null;
+                play_flag=true;
+                stop_play_flag=false;
+                //text.setText("Recording Point: Stop playing");
+
+                Toast.makeText(getApplicationContext(), "Stop playing the recording...",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -109,9 +208,6 @@ public class LocalLibrary extends AppCompatActivity implements TextToSpeech.OnIn
         }
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         tts.speak("you have "+str, TextToSpeech.QUEUE_FLUSH, null);
-
-
-
     }
 
     @Override

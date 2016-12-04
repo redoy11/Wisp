@@ -17,6 +17,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp"
         android:id="@+id/localLibraryTextView"
-        android:text="@string/localLibraryText" />
+        android:text="@string/localLibraryText"
+        android:visibility="invisible"/>
+
+    <ListView android:id="@android:id/list" android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
