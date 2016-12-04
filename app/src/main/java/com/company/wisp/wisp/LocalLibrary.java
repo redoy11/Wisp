@@ -37,7 +37,7 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
     private MediaPlayer myPlayer;
     private boolean play_flag=false;
     private boolean stop_play_flag=false;
-    //private String outputFile = null;
+    private  String runningFile=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,12 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
             startActivity(intent);
         } else {
             //Toast.makeText(this, filename + " is not a directory", Toast.LENGTH_LONG).show();
-            play(filename);
+            if(filename.equalsIgnoreCase(runningFile)) {
+                stopPlay();
+            } else {
+                if (stop_play_flag) stopPlay();
+                play(filename);
+            }
         }
     }
 
@@ -117,6 +122,7 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
 
             play_flag=false;
             stop_play_flag=true;
+            runningFile = selectedFile;
             //text.setText("Recording Point: Playing");
 
             Toast.makeText(getApplicationContext(), "Start play the recording...",
@@ -134,6 +140,7 @@ public class LocalLibrary extends ListActivity implements TextToSpeech.OnInitLis
                 myPlayer = null;
                 play_flag=true;
                 stop_play_flag=false;
+                runningFile = null;
                 //text.setText("Recording Point: Stop playing");
 
                 Toast.makeText(getApplicationContext(), "Stop playing the recording...",
