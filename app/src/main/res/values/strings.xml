@@ -3,7 +3,7 @@
     <string name="splashTxt">Swipe left for global library.  Swipe Right for local library.   Swipe down to record </string>
     <string name="globalLibraryText">Welcome to Global Library </string>
     <string name="localLibraryText">Welcome to Local Library </string>
-    <string name="title_activity_audio_recorder">AudioRecorder</string>
+    <string name="title_activity_audio_recorder">Audio Recorder</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

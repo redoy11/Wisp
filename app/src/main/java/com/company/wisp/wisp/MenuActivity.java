@@ -20,9 +20,7 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     private SimpleGestureFilter detector;
     private TextToSpeech tts;
-    private Button btnSpeak;
-    private EditText txtText;
-    private TextView txtView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,11 +29,7 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         tts = new TextToSpeech(this, this);
 
-        btnSpeak = (Button) findViewById(R.id.btnSpeak);
 
-        txtText = (EditText) findViewById(R.id.txtText);
-
-        txtView = (TextView) findViewById(R.id.testBox);
 
         // button on click event
         /*
@@ -84,7 +78,8 @@ public class MenuActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     private void speakOut() {
 
-        String text = txtView.getText().toString();
+        String text = "Welcome to Main Menu. Swipe Right to local library. Swipe Left to global library. " +
+                "Swipe Up to Search local library. Swipe Down to record. Double tap to listen again";
 
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }

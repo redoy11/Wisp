@@ -13,14 +13,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".splash"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -29,14 +31,16 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".LocalLibrary" />
-        <activity android:name=".GlobalLibrary" />
-        <activity android:name=".SearchLocal" />
+        <activity android:name=".MenuActivity" android:screenOrientation="portrait" android:label="Menu"/>
+        <activity android:name=".LocalLibrary" android:screenOrientation="portrait" android:label="Local Library"/>
+        <activity android:name=".GlobalLibrary" android:screenOrientation="portrait" android:label="Global Library"/>
+        <activity android:name=".SearchLocal" android:screenOrientation="portrait" android:label="Search"/>
         <activity
             android:name=".AudioRecorder"
-            android:label="@string/title_activity_audio_recorder"></activity>
-        <activity android:name=".SpeakFileName"></activity>
+            android:label="@string/title_activity_audio_recorder"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".SpeakFileName" android:screenOrientation="portrait" android:label="File Name"></activity>
     </application>
 
 </manifest>
