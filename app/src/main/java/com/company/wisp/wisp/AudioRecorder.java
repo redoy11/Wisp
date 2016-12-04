@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +28,7 @@ import java.util.Locale;
 public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnInitListener
         , SimpleGestureFilter.SimpleGestureListener {
 
+    private static int SPLASH_TIME_OUT = 3500;
     private SimpleGestureFilter detector;
     private TextToSpeech tts;
     //private Button btnSpeak;
@@ -37,10 +39,12 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
     private String outputFile = null;
     private TextView text;
 
-    private boolean startBtn=true;
-    private boolean stopBtn=false;
-    private boolean playBtn=false;
-    private boolean stopPlayBtn=false;
+    private boolean start_flag=true;
+    private boolean stop_flag=false;
+    private boolean play_flag=false;
+    private boolean stop_play_flag=false;
+
+    private String dialogue;
 
 
 
@@ -48,11 +52,13 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_recorder);
+        dialogue="Swipe Right to start recording";
         tts = new TextToSpeech(this, this);
         detector = new SimpleGestureFilter(this,this);
         txtView = (TextView) findViewById(R.id.RecordTextView);
 
         text = (TextView) findViewById(R.id.RecordTextView);
+
         // store it to sd card
         outputFile = Environment.getExternalStorageDirectory().
                 getAbsolutePath() + "/javacodegeeksRecording.3gpp";
@@ -91,6 +97,7 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
             } else {
                 // btnSpeak.setEnabled(true);
                 speakOut();
+                dialogue="Swipe Right to stop recording.   Recording Started";
             }
 
         } else {
@@ -101,9 +108,9 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
 
     private void speakOut() {
 
-        String text = txtView.getText().toString();
+        //String text = txtView.getText().toString();
 
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        tts.speak(dialogue, TextToSpeech.QUEUE_FLUSH, null);
     }
 
 
@@ -131,36 +138,75 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
         }
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         String strSpeaK="you have "+str;
-        tts.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+        //tts.speak(str, TextToSpeech.QUEUE_FLUSH, null);
 
         if(str.equalsIgnoreCase("Swiped Right"))
         {
             //do the work functions. It will invoke when Swiped Right
-            if(startBtn==true){
-                startRecording();
+            if(start_flag==true){
+                tts.speak(dialogue, TextToSpeech.QUEUE_FLUSH, null);
+                new Handler().postDelayed(new Runnable() {
+
+                /*
+                 * Showing splash screen with a timer. This will be useful when you
+                 * want to show case your app logo / company
+                 */
+
+                    @Override
+                    public void run() {
+                        // This method will be executed once the timer is over
+                        // Start your app main activity
+                        startRecording();
+                    }
+                }, SPLASH_TIME_OUT);
+
+            }
+            else if(stop_flag==true){
+                stopRecording();
+                dialogue="Swipe Right to start playing";
+                tts.speak(dialogue, TextToSpeech.QUEUE_FLUSH, null);
+
+            }
+            else if(play_flag==true){
+                dialogue="Swipe Right to stop playing.   Started playing";
+                tts.speak(dialogue, TextToSpeech.QUEUE_FLUSH, null);
+                new Handler().postDelayed(new Runnable() {
+
+                /*
+                 * Showing splash screen with a timer. This will be useful when you
+                 * want to show case your app logo / company
+                 */
+
+                    @Override
+                    public void run() {
+                        // This method will be executed once the timer is over
+                        // Start your app main activity
+                        play();
+                    }
+                }, SPLASH_TIME_OUT);
+
+            }
+            else if(stop_play_flag==true){
+                stopPlay();
+                dialogue="Swipe Right to start playing again";
+                tts.speak(dialogue, TextToSpeech.QUEUE_FLUSH, null);
             }
 
         }
         else if(str.equalsIgnoreCase("Swiped Left"))
         {
             //do the work functions. It will invoke when Swiped Left
-            if(stopBtn==true){
-                stopRecording();
-            }
+
         }
         else if(str.equalsIgnoreCase("Swiped Up"))
         {
             //do the work functions. It will invoke when Swiped Up
-            if(playBtn==true){
-                play();
-            }
+
         }
         else if(str.equalsIgnoreCase("Swiped Down"))
         {
             //do the work functions. It will invoke when Swiped Down
-            if(stopPlayBtn==true){
-                stopPlay();
-            }
+
         }
 
     }
@@ -187,8 +233,8 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
         }
 
         text.setText("Recording Point: Recording");
-        startBtn=false;
-        stopBtn=true;
+        start_flag=false;
+        stop_flag=true;
 
         Toast.makeText(getApplicationContext(), "Start recording...",
                 Toast.LENGTH_SHORT).show();
@@ -200,8 +246,8 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
             myRecorder.release();
             myRecorder  = null;
 
-            stopBtn=false;
-            playBtn=true;
+            stop_flag=false;
+            play_flag=true;
             text.setText("Recording Point: Stop recording");
 
             Toast.makeText(getApplicationContext(), "Stop recording...",
@@ -222,8 +268,8 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
             myPlayer.prepare();
             myPlayer.start();
 
-            playBtn=false;
-            stopPlayBtn=true;
+            play_flag=false;
+            stop_play_flag=true;
             text.setText("Recording Point: Playing");
 
             Toast.makeText(getApplicationContext(), "Start play the recording...",
@@ -240,8 +286,8 @@ public class AudioRecorder extends AppCompatActivity implements TextToSpeech.OnI
                 myPlayer.stop();
                 myPlayer.release();
                 myPlayer = null;
-                playBtn=true;
-                stopPlayBtn=false;
+                play_flag=true;
+                stop_play_flag=false;
                 text.setText("Recording Point: Stop playing");
 
                 Toast.makeText(getApplicationContext(), "Stop playing the recording...",
